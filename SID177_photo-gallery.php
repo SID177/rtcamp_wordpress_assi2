@@ -153,20 +153,22 @@ class SID177_photogallery{
 	            if($i>$values['limit'] && $values['limit']!=-1)
 	              break;
 	            ?>
-	            <div class="mySlides fade">
+	            <div class="mySlides fade" style="background-color: black;">
+	            <center>
 	              <div class="numbertext"><?php echo ($i++)." / ".$total; ?></div>
-	              <?php
-	              $img=explode('<img ',$img)[1];
-	              ?>
-	              
-	                <?php echo "<img ".$img; ?>
-	                <div class="text"><?php echo $title; ?></div>
+	              	<?php
+	              	$img=explode('<img ',$img)[1];
+	                echo "<img ".$img;
+	                ?>
+                	<div class="text"><?php echo $title; ?></div>
+	               </center>
 	            </div>
 	            <?php
 	        }
 	      	?>
 	            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
 	            <a class="next" onclick="plusSlides(1)">&#10095;</a>
+	            
 	        </div>
 	        <br>
 
