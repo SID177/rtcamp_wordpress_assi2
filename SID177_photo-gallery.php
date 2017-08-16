@@ -115,7 +115,7 @@ class SID177_photogallery{
         
         //START BUFFER (EXPLAINED BETTER BELOW)
         ob_start();
-        if(!empty($result)){
+        if(!empty($result) && !empty($values['limit']) && $values['limit']>0){
 
         	//IF WE FOUND ANY POST!
 
