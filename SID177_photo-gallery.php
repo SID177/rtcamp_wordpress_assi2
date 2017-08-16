@@ -42,8 +42,8 @@ class SID177_photogallery{
 		/*
     	*	PATH TO CSS AND JS FOLDER
     	*/
-		$this->css=plugins_url()."/SID177_photo-gallery/assets/css/";
-		$this->js=plugins_url()."/SID177_photo-gallery/assets/js/";
+		$this->css=plugins_url()."/".plugin_basename( __DIR__ )."/assets/css/";
+        $this->js=plugins_url()."/".plugin_basename( __DIR__ )."/assets/js/";
 
 
 		/*
