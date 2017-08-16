@@ -1,0 +1,4 @@
+#sortable { list-style-type: none; margin: 0; padding: 0; width: 100%; }
+#sortable li { display: inline-block; margin: 3px 3px 3px 0; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 100%; }
+#sortable li span { position: absolute; margin-left: -1.3em; }
+#sortable li img{width:auto !important; height: 150px !important;}
