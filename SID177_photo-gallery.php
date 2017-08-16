@@ -112,6 +112,9 @@ class SID177_photogallery{
             'limit'=>'-1'
         ], $attr,'');
 
+        $values['id']=sanitize_text_field($values['id']);
+        $values['limit']=sanitize_text_field($values['limit']);
+
         //GET POSTS HAVING ID TAKEN FROM SHORTCODE AND HAVING POSTTYPE OF THIS POST
         $result=$this->wpdb->get_results("select * from ".$this->wpdb->posts." where ID=".$values['id']." and post_type='".$this->posttype_name."'");
         
@@ -215,7 +218,8 @@ class SID177_photogallery{
 	
 	public function SID177_add_photogallery_metabox(){
 	    if($_REQUEST['action']=='edit'){
-	        $result=$this->SID177_getImageGalleryById($_REQUEST['post']);
+	    	$post=sanitize_text_field($_REQUEST['post']);
+	        $result=$this->SID177_getImageGalleryById($post);
 	        if(!empty($result) && $result[0]->post_status=='publish')
 	            add_meta_box($this->posttype_shortcode_metabox_id,$this->posttype_shortcode_metabox_title,array($this,'SID177_photogallery_shortcode_metabox_html'),$this->posttype_name,$this->posttype_shortcode_metabox_context,$this->posttype_shortcode_metabox_priority);
 	    }
@@ -237,7 +241,7 @@ class SID177_photogallery{
 	                if(isset($_REQUEST['post'])){
 	                    $result=$this->SID177_getImageGalleryById($_REQUEST['post']);
 	                    if(!empty($result)){
-	                        echo esc_html($result[0]->post_content);
+	                        echo $result[0]->post_content;
 	                    }
 	                }
 	            ?>
@@ -250,7 +254,9 @@ class SID177_photogallery{
 
 	public function SID177_photogallery_savegallery($post_id,$post,$update){
 	    if(isset($_REQUEST['content'])){
-	        $this->wpdb->update("update ".$this->wpdb->posts." set post_content='".$_REQUEST['content']."' where ID=$post_id");
+	    	$content=sanitize_text_field($_REQUEST['content']);
+	    	// $content=$_REQUEST['content'];
+	        $this->wpdb->update("update ".$this->wpdb->posts." set post_content='".$content."' where ID=$post_id");
 	    }
 	}
 
