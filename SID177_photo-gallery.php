@@ -155,12 +155,12 @@ class SID177_photogallery{
 	            ?>
 	            <div class="mySlides fade" style="background-color: black;">
 	            <center>
-	              <div class="numbertext"><?php echo ($i++)." / ".$total; ?></div>
+	              <div class="numbertext"><?php echo esc_html(($i++)." / ".$total); ?></div>
 	              	<?php
 	              	$img=explode('<img ',$img)[1];
 	                echo "<img ".$img;
 	                ?>
-                	<div class="text"><?php echo $title; ?></div>
+                	<div class="text"><?php echo esc_html($title); ?></div>
 	               </center>
 	            </div>
 	            <?php
@@ -181,7 +181,7 @@ class SID177_photogallery{
 	                if($i>$values['limit'] && $values['limit']!=-1)
 	                break;
 	                ?>
-	                <span class="dot" onclick="currentSlide(<?php echo $i++; ?>)"></span>
+	                <span class="dot" onclick="currentSlide(<?php echo esc_html($i++); ?>)"></span>
 	                <?php
 	            }
 	            ?>
@@ -207,7 +207,7 @@ class SID177_photogallery{
 	    ?>
 	    <div>
 	        <div class="meta-row">
-	            <span>[<?php echo $this->posttype_shortcode ?> id="<?php echo $_REQUEST['post']; ?>"]</span>
+	            <span>[<?php echo esc_html($this->posttype_shortcode); ?> id="<?php echo esc_html($_REQUEST['post']); ?>"]</span>
 	        </div>
 	    </div>
 	    <?php
@@ -237,7 +237,7 @@ class SID177_photogallery{
 	                if(isset($_REQUEST['post'])){
 	                    $result=$this->SID177_getImageGalleryById($_REQUEST['post']);
 	                    if(!empty($result)){
-	                        echo $result[0]->post_content;
+	                        echo esc_html($result[0]->post_content);
 	                    }
 	                }
 	            ?>
@@ -262,7 +262,7 @@ class SID177_photogallery{
 
 	public function SID177_imagegallery_shortcode_posttable( $column_name, $post_id ) {
 	    if($column_name=="shortcode" && isset($_REQUEST['post_type']) && $_REQUEST['post_type']==strtolower($this->posttype_name))
-	        echo "[".$this->posttype_shortcode." id=\"$post_id\" limit=\"10\"]";
+	        echo esc_html("[".$this->posttype_shortcode." id=\"$post_id\" limit=\"10\"]");
 	}
 
 	public function SID177_getImageGalleryById($id){
