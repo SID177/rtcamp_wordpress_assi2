@@ -2,7 +2,9 @@
 /*
 *	Plugin Name: SID177 Photo-Gallery Plugin
 *	Author: SID177
-*	Description: This is a basic plugin.
+*	Description: A simple Photogallery plugin. Add photos, reorder them. Paste the
+*	shortcode given to any post to show slideshow to your post.
+*	Version: 1.0.0
 */
 
 
