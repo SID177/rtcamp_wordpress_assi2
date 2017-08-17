@@ -120,7 +120,7 @@ class SID177_photogallery{
         
         //START BUFFER (EXPLAINED BETTER BELOW)
         ob_start();
-        if(!empty($result) && !empty($values['limit']) && (int)$values['limit']>0){
+        if(!empty($result)){
 
         	//IF WE FOUND ANY POST!
 
@@ -145,7 +145,7 @@ class SID177_photogallery{
 	        }
 	        if($total==0)
 	          return "";
-	        if($total>$values['limit'] && $values['limit']!=-1)
+	        if($total>$values['limit'] && (int)$values['limit']>0)
 	          $total=$values['limit'];
 	        ?>
 	        <div class="slideshow-container">
@@ -153,7 +153,7 @@ class SID177_photogallery{
 	        foreach ($result as $img) {
 	            if(!strpos($img,"img"))
 	                continue;
-	            if($i>$values['limit'] && $values['limit']!=-1)
+	            if($i>$values['limit'] && (int)$values['limit']>0)
 	              break;
 	            ?>
 	            <div class="mySlides fade" style="background-color: black;">
@@ -181,8 +181,8 @@ class SID177_photogallery{
 	            foreach ($result as $img) {
 	                if(!strpos($img,"img"))
 	                    continue;
-	                if($i>$values['limit'] && $values['limit']!=-1)
-	                break;
+	                if($i>$values['limit'] && (int)$values['limit']>0)
+	                	break;
 	                ?>
 	                <span class="dot" onclick="currentSlide(<?php echo esc_html($i++); ?>)"></span>
 	                <?php
