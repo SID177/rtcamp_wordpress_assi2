@@ -2,7 +2,7 @@ jQuery(document).ready(function(){
     createDeletes();
     document.getElementById('post').onsubmit=function(){
         removeDeletes();
-        document.getElementById('content').value=document.getElementById('sortable').innerHTML.trim();
+        document.getElementById('SID177_content').value=document.getElementById('sortable').innerHTML.trim();
     };
     var pub=document.getElementById('publish');
     if(pub)
@@ -67,9 +67,7 @@ function openMedia(){
         for(i=0;i<selection.length;i++){
             // let data=JSON.parse(selection[i]);
             let li=document.createElement('li');
-            li.className="";
-            li.style="";
-
+            
             let img=document.createElement('img');
             img.src=selection[i].url;
             img.alt="Image not found!";

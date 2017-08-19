@@ -138,7 +138,7 @@ class SID177_photogallery{
 	        $id=$result[0]->ID.",".$post->ID;
 
 	        //SPLITTING CONTENT WITH LI IN ORDER TO SHOW IMGS ONLY
-	        $result=explode('<li ',$result[0]->post_content);
+	        $result=explode('<li',$result[0]->post_content);
 	        $i=1;
 	        $total=0;
 	        foreach ($result as $img) {
@@ -217,7 +217,7 @@ class SID177_photogallery{
             'label'=>'SID177_status',
             'internal'=>true,
             'private'=>true,
-            'show_is_admin_status_list'=>true,
+            'show_in_admin_status_list'=>true,
             'show_in_admin_all_list'=>true
         );
         register_post_status('SID177_status',$args);
@@ -266,18 +266,17 @@ class SID177_photogallery{
 	            ?>
 	            </ul>
 	        </div>
-	        <input type="hidden" name="SID177_photogallery_content" id="content" form="post"/>
+	        <input type="hidden" name="SID177_content" id="SID177_content" form="post"/>
 	    </div>
 	    <?php
 	}
 
 	public function SID177_photogallery_savegallery($post_id,$post,$update){
-		if(!empty($_REQUEST['SID177_photogallery_content'])){
-	    	// die('bc');
-	    	$content=sanitize_text_field($_REQUEST['SID177_photogallery_content']);
+		if(isset($_REQUEST['SID177_content'])){
+	    	$content=$_REQUEST['SID177_content'];
+	    	$content=str_replace('\"','',$content);
 	    	$this->wpdb->update($this->wpdb->posts,array('post_status'=>'SID177_status'),array('ID'=>$post_id));
-	    	$this->wpdb->update("update wp_posts set post_content='".$content."' where ID=$post_id");
-	        
+	    	$this->wpdb->update($this->wpdb->posts,array('post_content'=>$content),array('ID'=>$post_id));
 	    }
 	}
 
