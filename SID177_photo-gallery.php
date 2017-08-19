@@ -29,7 +29,8 @@ class SID177_photogallery{
         add_action('init',array($this,'SID177_create_photogallery_posttype'));
         add_action('add_meta_boxes',array($this,'SID177_add_photogallery_metabox'));
         add_action('save_post',array($this,'SID177_photogallery_savegallery'),5,3);
-		add_action( 'manage_'.$this->post_type.'s_custom_column', array($this,'SID177_imagegallery_shortcode_posttable'), 10, 2 );
+		add_action('manage_'.$this->post_type.'s_custom_column', array($this,'SID177_imagegallery_shortcode_posttable'), 10, 2 );
+		add_action('the_posts',array($this,'SID177_photogallery_modifyquery'),10);
 		
 		
 		/*
@@ -133,6 +134,8 @@ class SID177_photogallery{
 
 	        //TITLE OF THE POST
 	        $title=$result[0]->post_title;
+	        global $post;
+	        $id=$result[0]->ID.",".$post->ID;
 
 	        //SPLITTING CONTENT WITH LI IN ORDER TO SHOW IMGS ONLY
 	        $result=explode('<li ',$result[0]->post_content);
@@ -156,7 +159,7 @@ class SID177_photogallery{
 	            if($i>$values['limit'] && (int)$values['limit']>0)
 	              break;
 	            ?>
-	            <div class="mySlides fade" style="background-color: black;">
+	            <div class="mySlides fade mySlides_<?php echo $id; ?>" style="background-color: black;">
 	            <center>
 	              <div class="numbertext"><?php echo esc_html(($i++)." / ".$total); ?></div>
 	              	<?php
@@ -169,8 +172,8 @@ class SID177_photogallery{
 	            <?php
 	        }
 	      	?>
-	            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-	            <a class="next" onclick="plusSlides(1)">&#10095;</a>
+	            <a class="prev" onclick="plusSlides(-1,'<?php echo $id; ?>')">&#10094;</a>
+	            <a class="next" onclick="plusSlides(1,'<?php echo $id; ?>')">&#10095;</a>
 	            
 	        </div>
 	        <br>
@@ -184,11 +187,16 @@ class SID177_photogallery{
 	                if($i>$values['limit'] && (int)$values['limit']>0)
 	                	break;
 	                ?>
-	                <span class="dot" onclick="currentSlide(<?php echo esc_html($i++); ?>)"></span>
+	                <span class="dot dot_<?php echo $id; ?>" onclick="currentSlide(<?php echo esc_html($i++); ?>,'<?php echo $id; ?>')"></span>
 	                <?php
 	            }
 	            ?>
 	        </div>
+	        <script type="text/javascript">
+        	jQuery(document).ready(function(){
+			    showSlides(slideIndex,'<?php echo $id; ?>');
+			});
+        	</script>
 	        <?php
         }
         $o=ob_get_contents();
@@ -203,6 +211,17 @@ class SID177_photogallery{
             'supports'=>$this->posttype_supports
         );
         register_post_type($this->posttype_name,$args);
+
+        $args=array(
+        	'public'=>false,
+            'label'=>'SID177_status',
+            'internal'=>true,
+            'private'=>true,
+            'show_is_admin_status_list'=>true,
+            'show_in_admin_all_list'=>true
+        );
+        register_post_status('SID177_status',$args);
+      	
         add_shortcode($this->posttype_shortcode,array($this,'SID177_photogallery_shortcode'));
     }
 
@@ -220,7 +239,7 @@ class SID177_photogallery{
 	    if($_REQUEST['action']=='edit'){
 	    	$post=sanitize_text_field($_REQUEST['post']);
 	        $result=$this->SID177_getImageGalleryById($post);
-	        if(!empty($result) && $result[0]->post_status=='publish')
+	        if(!empty($result))
 	            add_meta_box($this->posttype_shortcode_metabox_id,$this->posttype_shortcode_metabox_title,array($this,'SID177_photogallery_shortcode_metabox_html'),$this->posttype_name,$this->posttype_shortcode_metabox_context,$this->posttype_shortcode_metabox_priority);
 	    }
 	    add_meta_box($this->posttype_metabox_id,$this->posttype_metabox_title,array($this,'SID177_photogallery_metabox_html'),$this->posttype_name,$this->posttype_metabox_context,$this->posttype_metabox_priority);
@@ -247,16 +266,18 @@ class SID177_photogallery{
 	            ?>
 	            </ul>
 	        </div>
-	        <input type="hidden" name="content" id="content" form="post"/>
+	        <input type="hidden" name="SID177_photogallery_content" id="content" form="post"/>
 	    </div>
 	    <?php
 	}
 
 	public function SID177_photogallery_savegallery($post_id,$post,$update){
-	    if(isset($_REQUEST['content'])){
-	    	$content=sanitize_text_field($_REQUEST['content']);
-	    	// $content=$_REQUEST['content'];
-	        $this->wpdb->update("update ".$this->wpdb->posts." set post_content='".$content."' where ID=$post_id");
+		if(!empty($_REQUEST['SID177_photogallery_content'])){
+	    	// die('bc');
+	    	$content=sanitize_text_field($_REQUEST['SID177_photogallery_content']);
+	    	$this->wpdb->update($this->wpdb->posts,array('post_status'=>'SID177_status'),array('ID'=>$post_id));
+	    	$this->wpdb->update("update wp_posts set post_content='".$content."' where ID=$post_id");
+	        
 	    }
 	}
 
@@ -274,6 +295,26 @@ class SID177_photogallery{
 	public function SID177_getImageGalleryById($id){
 	    $result=$this->wpdb->get_results("select * from ".$this->wpdb->posts." where ID=$id");
 	    return $result;
+	}
+
+	public function SID177_photogallery_modifyquery($posts){
+		/*if(is_admin())
+			return $posts;
+
+		for($i=0;$i<count($posts);$i++) {
+			$post=$posts[$i];
+			// echo $post->post_type.", ".strtolower($this->posttype_name);
+			if($post->post_type==strtolower($this->posttype_name)){
+				unset($posts[$i]);
+			}
+		}
+		// echo "<br><br>photo gal<br>";
+		foreach ($posts as $post) {
+    		echo $post->post_content."<br>";
+    	}*/
+    	// remove_action('the_posts',array($this,'SID177_photogallery_modifyquery'));
+		// die;
+		return $posts;
 	}
 }
 new SID177_photogallery();

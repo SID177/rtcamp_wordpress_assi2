@@ -1,20 +1,41 @@
 var slideIndex = 1;
-jQuery(document).ready(function(){
-    showSlides(slideIndex);
-});
 
-function plusSlides(n) {
-  showSlides(slideIndex += n);
+
+function plusSlides(n,cls) {
+  showSlides(slideIndex += n,cls);
 }
 
-function currentSlide(n) {
-  showSlides(slideIndex = n);
+function currentSlide(n,cls) {
+  showSlides(slideIndex = n,cls);
 }
 
-function showSlides(n) {
+/*function initSlides(){
+  var containers=document.getElementsByClassName("slideshow-container");
+  if(!containers || !containers[0])
+    return;
+  var slides=[];
+  var dots=[];
+  for(var i=0;i<containers.length;i++){
+    if(containers[i].childNodes){
+      var children=containers[i].childNodes;
+      for(var j=0;j<children.length;j++){
+        if(children[j].className=='mySlides')
+          slides.push(children[j]);
+        if(children[j].nodeName=='a' && children[j].className=='prev'){
+          children[j].onclick=function(){
+            plusSlides(-1,j);
+          };
+          slides.push(children[j]);
+        }
+      }
+    }
+  }
+}*/
+
+function showSlides(n,cls) {
   var i;
-  var slides = document.getElementsByClassName("mySlides");
-  var dots = document.getElementsByClassName("dot");
+  var slides = document.getElementsByClassName("mySlides_"+cls);
+  var dots = document.getElementsByClassName("dot_"+cls);
   if (n > slides.length) {slideIndex = 1} 
   if (n < 1) {slideIndex = slides.length}
   for (i = 0; i < slides.length; i++) {

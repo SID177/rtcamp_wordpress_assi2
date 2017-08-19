@@ -4,6 +4,12 @@ jQuery(document).ready(function(){
         removeDeletes();
         document.getElementById('content').value=document.getElementById('sortable').innerHTML.trim();
     };
+    var pub=document.getElementById('publish');
+    if(pub)
+        pub.value="Save";
+    pub=document.getElementById('save-post');
+    if(pub)
+        pub.parentNode.removeChild(pub);
 });
 /*window.onload=function(){
     
