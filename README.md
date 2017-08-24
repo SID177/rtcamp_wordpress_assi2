@@ -20,6 +20,14 @@ The slider will be shown in the post.
 ![Checkbox](https://github.com/SID177/uploaded_images/blob/master/Capture5.PNG?raw=true)
 
 
+
+### Setting limit:
+
 The user can also set limit of the slideshow, that how many images should be shown in the slideshow.
 By default all the images will be shown in the slideshow.
 To set limit, just add limit attribute in the shortcode shown above.
+
+Example:
+  `[SID177_photogallery_shortcode id="123" limit="10"]`
+ 
+If you provide any non-numeric value in the limit attribute or any invalid attribute, it won't work and all the images will be shown.
