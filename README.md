@@ -18,3 +18,8 @@ The user has to copy paste a shortcode given to his/her post.
 The slider will be shown in the post.
 
 ![Checkbox](https://github.com/SID177/uploaded_images/blob/master/Capture5.PNG?raw=true)
+
+
+The user can also set limit of the slideshow, that how many images should be shown in the slideshow.
+By default all the images will be shown in the slideshow.
+To set limit, just add limit attribute in the shortcode shown above.
