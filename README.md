@@ -7,7 +7,10 @@
 ## Introduction:
 
 A simple Photo gallery plugin.
-The user is able to add photos in a post, and can reorder it.
+The user is able to add photos in a post, and can reorder it by drag and drop.
+
+> The post created in this plugin won't be posted on the front side.
+
 
 ![Checkbox](https://github.com/SID177/uploaded_images/blob/master/Capture3.PNG?raw=true)
 
