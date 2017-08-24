@@ -1,9 +1,10 @@
 # rtcamp_wordpress_assi2
 
 - This is a wordpress plugin
-- Dependency: A javascript library is used: jquery-ui-sortable. Make sure that this library can be imported using wp_enqueue_script('jquery-ui-sortable'); function.
+- Dependency: A javascript library is used: jquery-ui-sortable.
+  Make sure that this library can be imported using wp_enqueue_script('jquery-ui-sortable'); function.
 
-Introduction:
+## Introduction:
 
 A simple Photo gallery plugin.
 The user is able to add photos in a post, and can reorder it.
