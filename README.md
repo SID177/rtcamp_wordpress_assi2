@@ -23,9 +23,9 @@ The slider will be shown in the post.
 
 ### Setting limit:
 
-The user can also set limit of the slideshow, that how many images should be shown in the slideshow.
-By default all the images will be shown in the slideshow.
-To set limit, just add limit attribute in the shortcode shown above.
+The user can also set limit, i.e. how many images should be shown in the slideshow.
+By default all the images will be shown.
+To set limit, just add `limit` attribute in the shortcode shown above.
 
 Example:
   `[SID177_photogallery_shortcode id="123" limit="10"]`
