@@ -30,7 +30,7 @@ class SID177_photogallery{
         add_action('add_meta_boxes',array($this,'SID177_add_photogallery_metabox'));
         add_action('save_post',array($this,'SID177_photogallery_savegallery'),5,3);
 		add_action('manage_'.$this->post_type.'s_custom_column', array($this,'SID177_imagegallery_shortcode_posttable'), 10, 2 );
-		add_action('the_posts',array($this,'SID177_photogallery_modifyquery'),10);
+		// add_action('the_posts',array($this,'SID177_photogallery_modifyquery'),10);
 		
 		
 		/*
@@ -67,7 +67,7 @@ class SID177_photogallery{
     private $frontend_style,$frontend_script;
     private $admin_style,$admin_script;
 
-    private $posttype_title="Upload Images";
+    private $posttype_title="SID177 PhotoGallery";
     private $posttype_public=true;
     
     /*
@@ -117,7 +117,8 @@ class SID177_photogallery{
         $values['limit']=sanitize_text_field($values['limit']);
 
         //GET POSTS HAVING ID TAKEN FROM SHORTCODE AND HAVING POSTTYPE OF THIS POST
-        $result=$this->wpdb->get_results("select * from ".$this->wpdb->posts." where ID=".$values['id']." and post_type='".$this->posttype_name."'");
+        // $result=$this->wpdb->get_results("select * from ".$this->wpdb->posts." where ID=".$values['id']." and post_type='".$this->posttype_name."'");
+        $result=$this->wpdb->get_results($this->wpdb->prepare("select * from ".$this->wpdb->posts." where ID=%d and post_type='%s'",$values['id'],$this->posttype_name));
         
         //START BUFFER (EXPLAINED BETTER BELOW)
         ob_start();
@@ -292,28 +293,8 @@ class SID177_photogallery{
 	}
 
 	public function SID177_getImageGalleryById($id){
-	    $result=$this->wpdb->get_results("select * from ".$this->wpdb->posts." where ID=$id");
+	    $result=$this->wpdb->get_results($this->wpdb->prepare("select * from ".$this->wpdb->posts." where ID=%d",$id));
 	    return $result;
-	}
-
-	public function SID177_photogallery_modifyquery($posts){
-		/*if(is_admin())
-			return $posts;
-
-		for($i=0;$i<count($posts);$i++) {
-			$post=$posts[$i];
-			// echo $post->post_type.", ".strtolower($this->posttype_name);
-			if($post->post_type==strtolower($this->posttype_name)){
-				unset($posts[$i]);
-			}
-		}
-		// echo "<br><br>photo gal<br>";
-		foreach ($posts as $post) {
-    		echo $post->post_content."<br>";
-    	}*/
-    	// remove_action('the_posts',array($this,'SID177_photogallery_modifyquery'));
-		// die;
-		return $posts;
 	}
 }
 new SID177_photogallery();
